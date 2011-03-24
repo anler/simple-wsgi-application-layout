@@ -1,7 +1,7 @@
 from werkzeug.routing import Map, Rule, NotFound, RequestRedirect
-import views
+from views import *
 
 url_map = Map([
-    Rule('/', endpoint=views.index_view),
+    Rule('/', endpoint=IndexView),
     Rule('/static/<file>', endpoint='static', build_only=True)
 ])

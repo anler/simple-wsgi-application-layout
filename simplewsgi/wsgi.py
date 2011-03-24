@@ -1,27 +1,19 @@
 from werkzeug.exceptions import HTTPException
 from werkzeug.wsgi import SharedDataMiddleware
 
-from http import HttpRequest
 from utils import local, local_manager
 import settings
 import routes
 
 class Application(object):
-    
+    """Core wsgi application"""
     def __init__(self):
         super(Application, self).__init__()
         local.application = self
         
-        for middleware in settings.MIDDLEWARE_CLASSES:
-            modules = middleware[0].split('.')
-            cls = modules.pop()
-            options = middleware[1:]
-            try:
-                module = __import__('.'.join(modules), {}, {}, [cls])
-                cls = getattr(module, cls)
-                self.dispatch = cls(self.dispatch, *options)
-            except ImportError:
-                raise
+        # self.dispatch = SharedDataMiddleware(self.dispatch, {
+        #     '/static': settings.STATIC_PATH
+        # })
     
     def __call__(self, *args):
         return self.dispatch(*args)
@@ -32,8 +24,7 @@ class Application(object):
         local.url_adapter = url_adapter
         try:
             endpoint, params = url_adapter.match()
-            response = endpoint(HttpRequest(environ), *params)
-            return response(environ, start_response)
+            return endpoint().__call__(environ, start_response, *params)
         except HTTPException, e:
             return e(environ, start_response)
         finally:
