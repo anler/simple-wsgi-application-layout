@@ -1,12 +1,12 @@
-from http import HttpResponse
 #from jinja2 import Environment, PackageLoader
 from jinja2 import Environment, FileSystemLoader
-from os import path
 
-TEMPLATE_PATH = path.join(path.dirname(__file__), 'templates')
+from http import HttpResponse
+import settings
+
 #jinja_env = Environment(loader=PackageLoader('simplewsgi', 'templates'),
 #                        extensions=['jinja2.ext.i18n'])
-jinja_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+jinja_env = Environment(loader=FileSystemLoader(settings.TEMPLATE_PATH),
                         extensions=['jinja2.ext.i18n'])
 
 def index_view(request):

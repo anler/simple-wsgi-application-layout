@@ -1,9 +1,13 @@
-import os
+from os import path
 
-PROJECT_ROOT = os.path.dirname(__file__)
+PROJECT_ROOT = path.dirname(__file__)
+
+
+TEMPLATE_PATH = path.join(PROJECT_ROOT, 'templates')
+
 
 MIDDLEWARE_CLASSES = [
     ('werkzeug.wsgi.SharedDataMiddleware', 
-                {'/image': os.path.join(PROJECT_ROOT, 'shared', 'images')}),
+                {'/img': path.join(PROJECT_ROOT, 'shared', 'images')}),
     ('middlewares.sample.SampleMiddleware',),
 ]
