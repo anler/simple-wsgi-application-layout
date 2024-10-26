@@ -15,7 +15,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'werkzeug==3.0.3',
+        'werkzeug==3.0.6',
         'jinja2==3.1.4'
     ]
 )
